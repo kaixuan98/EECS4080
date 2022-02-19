@@ -1,3 +1,6 @@
 .env
 *.csv
 *.txt
+*.json
+/input/**
+/docs/**
