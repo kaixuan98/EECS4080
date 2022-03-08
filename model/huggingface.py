@@ -14,12 +14,12 @@ model = AutoModelForSequenceClassification.from_pretrained(model_name)
 
 classifier = pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
 
-df = pd.read_csv('../data_cleaning/clean_data.csv')
-tweet = df['clean_tweet'][:10].tolist()
+df = pd.read_csv('../data_cleaning/clean_testing_all_lang.csv')
+tweet = df['clean_tweet'].tolist()
 
 res = classifier(tweet)
 
-f=open('cardiffResult.txt','w')
+f=open('cardiffResult_all.txt','w')
 
 for result in res:
     f.write(f'{result}\n')
