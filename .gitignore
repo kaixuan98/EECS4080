@@ -3,7 +3,6 @@
 *.txt
 *.json
 /input/**
-/docs/**
 docs/_build/
 __pycache__/
 *.py[cod]
