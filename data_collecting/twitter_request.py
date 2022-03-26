@@ -7,28 +7,28 @@ import json
 from os.path import exists
 import datetime
 
-def queryBuilding(file):
-    """ This function is used to build a query to send request to the Twitter API.
+# def queryBuilding(file):
+#     """ This function is used to build a query to send request to the Twitter API.
 
-    :parameter file: the path to the file.
-    :return: a query that can be used to send request to Twitter API using Tweetpy.
-    """
-    query = ''
-    j=0
-    f = open(file)
-    data = json.load(f)
-    for i in data['keywords']:
-        if  j != len(data['keywords']) - 1 : 
-            query = query + i + " OR "
-        else: 
-            query = query + i + " "
-        j = j + 1  
-    if data['withRT']: 
-        query = "(" + query + "-RT) -is:retweet "
-    if data['lang']: 
-        query = query + f'lang:{data["lang"]}'
-    f.close()
-    return query
+#     :parameter file: the path to the file.
+#     :return: a query that can be used to send request to Twitter API using Tweetpy.
+#     """
+#     query = ''
+#     j=0
+#     f = open(file)
+#     data = json.load(f)
+#     for i in data['keywords']:
+#         if  j != len(data['keywords']) - 1 : 
+#             query = query + i + " OR "
+#         else: 
+#             query = query + i + " "
+#         j = j + 1  
+#     if data['withRT']: 
+#         query = "(" + query + "-RT) -is:retweet "
+#     if data['lang']: 
+#         query = query + f'lang:{data["lang"]}'
+#     f.close()
+#     return query
 
 
 def requestData(client, query, columns, tweetFields, expansions, start_time, end_time, max_results=100, limit = 20000):
@@ -104,7 +104,7 @@ def requestUserLocation(client, batches, tweetId_batches, userFields=['id', 'loc
 
     :parameter user_id_list: a list of user's id
     :parameter userFields: a list of user fields, by default will be id and location
-    :return a a list of dictionary with user id and location
+    :return: a list of dictionary with user id and location
     """
     loc_list =[]
     req_calls = 0
