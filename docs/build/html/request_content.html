@@ -261,7 +261,7 @@ of each tweet. The language are formated in <code class="docutils literal notran
 </div>
 <div class="section" id="query-formation">
 <h3>Query Formation<a class="headerlink" href="#query-formation" title="Permalink to this headline">¶</a></h3>
-<p>The input file will be passed into <code class="docutils literal notranslate"><span class="pre">queryBuliding</span></code> function to extract all the details and building a query that can used to perform requesting later.</p>
+<p>The input file will be passed into <code class="docutils literal notranslate"><span class="pre">queryBuilding</span></code> function to extract all the details and building a query that can used to perform requesting later.</p>
 </div>
 </div>
 <div class="section" id="requesting-data">
@@ -276,20 +276,6 @@ of each tweet. The language are formated in <code class="docutils literal notran
 <dt class="sig sig-object py" id="twitter_request.chunks">
 <span class="sig-prename descclassname"><span class="pre">twitter_request.</span></span><span class="sig-name descname"><span class="pre">chunks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lst</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#twitter_request.chunks" title="Permalink to this definition">¶</a></dt>
 <dd><p>Yield successive n-sized chunks from lst.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="twitter_request.queryBuilding">
-<span class="sig-prename descclassname"><span class="pre">twitter_request.</span></span><span class="sig-name descname"><span class="pre">queryBuilding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#twitter_request.queryBuilding" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function is used to build a query to send request to the Twitter API.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>file</strong> – the path to the file.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>a query that can be used to send request to Twitter API using Tweetpy.</p>
-</dd>
-</dl>
 </dd></dl>
 
 <dl class="py function">
@@ -325,8 +311,24 @@ of each tweet. The language are formated in <code class="docutils literal notran
 <li><p><strong>userFields</strong> – a list of user fields, by default will be id and location</p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a list of dictionary with user id and location</p>
+</dd>
 </dl>
-<p>:return a a list of dictionary with user id and location</p>
+</dd></dl>
+
+<span class="target" id="module-queryBuilding"></span><dl class="py function">
+<dt class="sig sig-object py" id="queryBuilding.queryBuilding">
+<span class="sig-prename descclassname"><span class="pre">queryBuilding.</span></span><span class="sig-name descname"><span class="pre">queryBuilding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">queryKeywords</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#queryBuilding.queryBuilding" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function is used to build a query to send request to the Twitter API.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>queryKeywords</strong> – dictionary for the keywords</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a query that can be used to send request to Twitter API using Tweetpy.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
