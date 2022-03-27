@@ -1,4 +1,3 @@
-from ast import keyword
 import json
 from hashlib import blake2b
 
@@ -9,15 +8,21 @@ def queryBuilding(queryKeywords):
     :return: a query that can be used to send request to Twitter API using Tweetpy.
     """
     query = ''
-    j=0
-    for i in queryKeywords['orKeywords']:
-        if  j != len(queryKeywords['orKeywords']) - 1 : 
-            query = query + i + " OR "
-        else: 
-            query = query + i + " "
-        j = j + 1  
+    for orList in queryKeywords['orKeywords']:
+        temp = ''
+        j=0
+        for i in orList:
+            if  j != len(orList) - 1 : 
+                temp = temp + i + " OR "
+            else: 
+                temp = temp + i + ""
+            j = j + 1  
+        if len(orList) > 1 :
+            temp = "(" + temp + ")"
+        query = query + temp + ' '
+    print(query)
     if queryKeywords['withRT']: 
-        query = "(" + query + "-RT) -is:retweet "
+        query =  query + "-RT -is:retweet "
     if queryKeywords['lang']: 
         query = query + f'lang:{queryKeywords["lang"]}'
     return query
@@ -25,7 +30,7 @@ def queryBuilding(queryKeywords):
 # usage
 if __name__ == "__main__":
     # querys = queryBuilding('../input/inputfile.json')
-    f = open('../input/topics.json')
+    f = open('../input/providedInput.json')
     h = blake2b(digest_size=10)
     topics = json.load(f)
     result=[]

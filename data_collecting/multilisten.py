@@ -4,7 +4,6 @@ import tweepy
 import pandas as pd
 import json
 from os.path import exists
-from hashlib import blake2b
 import numpy as np
 
 # local function 
@@ -15,7 +14,6 @@ if module_path not in sys.path:
     sys.path.append(module_path)
 from data_collecting.twitter_request import TweetsReq, requestData, requestUserLocation, chunks
 from data_collecting.queryBuilding import queryBuilding
-
 
 
 if __name__ == "__main__":
@@ -35,23 +33,21 @@ if __name__ == "__main__":
     curr_next_token = ''
 
     # Step 1: query building
-    f = open('../input/topics.json')
-    h = blake2b(digest_size=10)
+    f = open('../input/providedInput.json')
     topics = json.load(f)
     result=[]
     for topic in topics:
         # create a hashid with the topic name
-        topicName = (topic['topic']).encode('UTF-8')
-        h.update(topicName)
-        id = h.hexdigest()
+        id = abs(hash(topic['topic'])) % (10 ** 10)
         # build query 
         query = queryBuilding(topic['query'])
         result.append({"topicId": id , "topic": topic['topic'], "query": query})
     f.close()
+
     
     # Step 2: Request tweets for each topic
-    startTime = '2022-03-18T00:00:00.00Z'
-    endTime = '2022-03-19T00:00:00.00Z'
+    startTime = '2022-03-25T00:00:00.00Z'
+    endTime = '2022-03-26T00:00:00.00Z'
     for topic in result:
         df = requestData(client, topic['query'], columns, tweet_fields, expansions, startTime, endTime, 100, 100) 
         # add topic id to the dataframe

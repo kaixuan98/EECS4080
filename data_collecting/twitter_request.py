@@ -7,29 +7,6 @@ import json
 from os.path import exists
 import datetime
 
-# def queryBuilding(file):
-#     """ This function is used to build a query to send request to the Twitter API.
-
-#     :parameter file: the path to the file.
-#     :return: a query that can be used to send request to Twitter API using Tweetpy.
-#     """
-#     query = ''
-#     j=0
-#     f = open(file)
-#     data = json.load(f)
-#     for i in data['keywords']:
-#         if  j != len(data['keywords']) - 1 : 
-#             query = query + i + " OR "
-#         else: 
-#             query = query + i + " "
-#         j = j + 1  
-#     if data['withRT']: 
-#         query = "(" + query + "-RT) -is:retweet "
-#     if data['lang']: 
-#         query = query + f'lang:{data["lang"]}'
-#     f.close()
-#     return query
-
 
 def requestData(client, query, columns, tweetFields, expansions, start_time, end_time, max_results=100, limit = 20000):
     """ Used to request tweets from Twitter. This function will only search for the recent tweets (up to 7 days) with paginate. *Full search are not allow due to the restricted access to the AP.*
@@ -41,7 +18,7 @@ def requestData(client, query, columns, tweetFields, expansions, start_time, end
     :parameter expansions: expansions for each tweet
     :parameter max_results: max result returned per request [10-100]
     :parameter limit: max number of tweet returned *(Beware of the cap limit)*
-    :return: None, but will be saving a csv file to the current directory
+    :return:  dataframe
     """
     data = [] 
     response = tweepy.Paginator(client.search_recent_tweets, query, tweet_fields=tweetFields, expansions=expansions, start_time=start_time, end_time=end_time, max_results=max_results).flatten(limit=limit)
@@ -61,6 +38,18 @@ def requestData(client, query, columns, tweetFields, expansions, start_time, end
 
 
 def TweetsReq(client, query, columns, tweetFields, expansions, since_id,next_token, max_results=100): 
+    """  This function is can be used to pull the newest data, historical data only up to 7 days.
+
+    :parameter client: the client to connect with Twitter API
+    :parameter query: query built using queryBuilding function
+    :parameter columns: column names that need for the dataframe
+    :parameter tweetFields: an array of fields that needed from TwitterAPI
+    :parameter expansions: an array of expansions that needed from TwitterAPI
+    :parameter since_id: the latest tweetId in your database
+    :parameter next_token: a token for pagination 
+    :parameter max_result: the max result is 100 and min of this value is 10
+    :return: a dictionary consists of since_id, next_token and current number of tweets 
+    """
     data=[]
     tweets_count = 0
     nextToken = next_token
