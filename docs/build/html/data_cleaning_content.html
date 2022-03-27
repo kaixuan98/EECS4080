@@ -164,6 +164,19 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show noprint">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-data_cleaning">
+   Functions
+  </a>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -176,6 +189,19 @@
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-data_cleaning">
+   Functions
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -184,6 +210,68 @@
                 
   <div class="section" id="data-preprocessing">
 <h1>Data Preprocessing<a class="headerlink" href="#data-preprocessing" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-data_cleaning">
+<span id="functions"></span><h2>Functions<a class="headerlink" href="#module-data_cleaning" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="data_cleaning.clean_tweet">
+<span class="sig-prename descclassname"><span class="pre">data_cleaning.</span></span><span class="sig-name descname"><span class="pre">clean_tweet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tweet</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lang</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_cleaning.clean_tweet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove twitter handle, links , digits, puntuation, hashtag and stop words. The stop words are from NLTK library and stop words can be remove based on language.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tweet</strong> – a tweet</p></li>
+<li><p><strong>lang</strong> – language code, currently only support English (en), Spanish(es), and German(de)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="data_cleaning.deEmojify">
+<span class="sig-prename descclassname"><span class="pre">data_cleaning.</span></span><span class="sig-name descname"><span class="pre">deEmojify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_cleaning.deEmojify" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove emoji from a text.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>text</strong> – a string</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="data_cleaning.getLocation">
+<span class="sig-prename descclassname"><span class="pre">data_cleaning.</span></span><span class="sig-name descname"><span class="pre">getLocation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_cleaning.getLocation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use geopy to request for the location based on the extracted location</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>df</strong> – dataframe</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>df - dataframe with Country name, latitude and longitude</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="data_cleaning.isLocation">
+<span class="sig-prename descclassname"><span class="pre">data_cleaning.</span></span><span class="sig-name descname"><span class="pre">isLocation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">doc</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#data_cleaning.isLocation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use Spacy to recognize location for a doc</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>doc</strong> – string</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>string - the location in the doc</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
 </div>
 
 
