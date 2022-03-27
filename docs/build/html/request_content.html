@@ -183,17 +183,10 @@
   <a class="reference internal nav-link" href="#requesting-data">
    Requesting Data
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#request-tweets">
-     Request Tweets
-    </a>
-   </li>
-  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#module-queryBuilding">
-   Function used
+   Functions
   </a>
  </li>
 </ul>
@@ -230,17 +223,10 @@
   <a class="reference internal nav-link" href="#requesting-data">
    Requesting Data
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#request-tweets">
-     Request Tweets
-    </a>
-   </li>
-  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#module-queryBuilding">
-   Function used
+   Functions
   </a>
  </li>
 </ul>
@@ -294,18 +280,14 @@ The topic id with the built query will then be saved.</p>
 <h2>Requesting Data<a class="headerlink" href="#requesting-data" title="Permalink to this headline">¶</a></h2>
 <dl class="simple">
 <dt>After bulding the query, we can the data collecting process. There is 2 main steps in this step, which are</dt><dd><ul class="simple">
-<li><p>the used of <code class="docutils literal notranslate"><span class="pre">TweetsReq</span></code> function to request tweets</p></li>
+<li><p>the used of <code class="docutils literal notranslate"><span class="pre">TweetsReq</span></code> or <code class="docutils literal notranslate"><span class="pre">requestData</span></code> function to request tweets</p></li>
 <li><p>the used of <code class="docutils literal notranslate"><span class="pre">requestUserLocation</span></code> function to request user location of each tweets</p></li>
 </ul>
 </dd>
 </dl>
-<div class="section" id="request-tweets">
-<h3>Request Tweets<a class="headerlink" href="#request-tweets" title="Permalink to this headline">¶</a></h3>
-<p>After building the query, we can start requesting tweets using the function <code class="docutils literal notranslate"><span class="pre">TweetsReq</span></code></p>
-</div>
 </div>
 <div class="section" id="module-queryBuilding">
-<span id="function-used"></span><h2>Function used<a class="headerlink" href="#module-queryBuilding" title="Permalink to this headline">¶</a></h2>
+<span id="functions"></span><h2>Functions<a class="headerlink" href="#module-queryBuilding" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="queryBuilding.queryBuilding">
 <span class="sig-prename descclassname"><span class="pre">queryBuilding.</span></span><span class="sig-name descname"><span class="pre">queryBuilding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">queryKeywords</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#queryBuilding.queryBuilding" title="Permalink to this definition">¶</a></dt>
@@ -323,7 +305,8 @@ The topic id with the built query will then be saved.</p>
 <span class="target" id="module-twitter_request"></span><dl class="py function">
 <dt class="sig sig-object py" id="twitter_request.TweetsReq">
 <span class="sig-prename descclassname"><span class="pre">twitter_request.</span></span><span class="sig-name descname"><span class="pre">TweetsReq</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tweetFields</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expansions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">since_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">next_token</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#twitter_request.TweetsReq" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
+<dd><p>This function is can be used to pull the newest data, historical data only up to 7 days.</p>
+<dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>client</strong> – the client to connect with Twitter API</p></li>
@@ -365,7 +348,7 @@ The topic id with the built query will then be saved.</p>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>None, but will be saving a csv file to the current directory</p>
+<dd class="field-even"><p>dataframe</p>
 </dd>
 </dl>
 </dd></dl>
