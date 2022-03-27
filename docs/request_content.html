@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Twitter API requests &#8212; EECS 4080: Online Platform for Multilingual Social Media Mining  documentation</title>
+    <title>Data Collecting &#8212; EECS 4080: Online Platform for Multilingual Social Media Mining  documentation</title>
     
   <link href="_static/css/theme.css" rel="stylesheet">
   <link href="_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
@@ -80,7 +80,7 @@
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Twitter API requests
+   Data Collecting
   </a>
  </li>
  <li class="toctree-l1">
@@ -170,25 +170,23 @@
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#input-file">
+   Input File
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#building-query">
    Building Query
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#input-file">
-     Input File
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#query-formation">
-     Query Formation
-    </a>
-   </li>
-  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#requesting-data">
    Requesting Data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-queryBuilding">
+   Functions
   </a>
  </li>
 </ul>
@@ -201,7 +199,7 @@
         <div class="col-12 col-md-9 pl-md-3 pr-md-0">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Twitter API requests</h1>
+                <h1>Data Collecting</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -212,25 +210,23 @@
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#input-file">
+   Input File
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#building-query">
    Building Query
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#input-file">
-     Input File
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#query-formation">
-     Query Formation
-    </a>
-   </li>
-  </ul>
  </li>
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#requesting-data">
    Requesting Data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#module-queryBuilding">
+   Functions
   </a>
  </li>
 </ul>
@@ -242,35 +238,92 @@
             
               <div>
                 
-  <div class="section" id="twitter-api-requests">
-<h1>Twitter API requests<a class="headerlink" href="#twitter-api-requests" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="data-collecting">
+<h1>Data Collecting<a class="headerlink" href="#data-collecting" title="Permalink to this headline">¶</a></h1>
 <p>In this script, it will be performing two task - query building and data requesting. The details of the task will be listed in the following.</p>
-<div class="section" id="building-query">
-<h2>Building Query<a class="headerlink" href="#building-query" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="input-file">
-<h3>Input File<a class="headerlink" href="#input-file" title="Permalink to this headline">¶</a></h3>
-<p>The input file to the query is formated in json. The structure of the json is shown below.</p>
-<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="nt">&quot;keywords&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;climatechange&quot;</span><span class="p">,</span> <span class="s2">&quot;ecofriendly&quot;</span><span class="p">,</span> <span class="s2">&quot;sustainable&quot;</span><span class="p">,</span> <span class="s2">&quot;zerowaste&quot;</span><span class="p">,</span> <span class="s2">&quot;environment&quot;</span><span class="p">,</span> <span class="s2">&quot;climateaction&quot;</span><span class="p">,</span> <span class="s2">&quot;savetheplanet&quot;</span><span class="p">,</span> <span class="s2">&quot;globalwarming&quot;</span><span class="p">],</span>
-<span class="nt">&quot;withRT&quot;</span> <span class="p">:</span> <span class="kc">true</span> <span class="p">,</span>
-<span class="nt">&quot;lang&quot;</span><span class="p">:</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span>
-<span class="nt">&quot;exclude_keywords&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;RT&quot;</span><span class="p">]}</span>
+<h2>Input File<a class="headerlink" href="#input-file" title="Permalink to this headline">¶</a></h2>
+<p>The input file is an array of json object. Each json object will be used to build one query and the structure of each object is show in the following</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+        <span class="nt">&quot;topic&quot;</span><span class="p">:</span> <span class="s2">&quot;climate change&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;query&quot;</span> <span class="p">:</span> <span class="p">{</span>
+                <span class="nt">&quot;orKeywords&quot;</span><span class="p">:</span> <span class="p">[</span>
+                        <span class="p">[</span><span class="s2">&quot;environment&quot;</span><span class="p">,</span> <span class="s2">&quot;climate action&quot;</span><span class="p">],</span>
+                        <span class="p">[</span><span class="s2">&quot;ecofriendly&quot;</span><span class="p">,</span> <span class="s2">&quot;recycling&quot;</span><span class="p">,</span> <span class="s2">&quot;zero waste&quot;</span><span class="p">]</span>
+                <span class="p">],</span>
+                <span class="nt">&quot;withRT&quot;</span> <span class="p">:</span> <span class="kc">true</span> <span class="p">,</span>
+                <span class="nt">&quot;lang&quot;</span><span class="p">:</span> <span class="s2">&quot;en&quot;</span><span class="p">,</span>
+                <span class="nt">&quot;exclude_keywords&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="s2">&quot;RT&quot;</span><span class="p">]</span>
+        <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 </div>
-<p><code class="docutils literal notranslate"><span class="pre">keywords</span></code> are the keywords that need to be include to the query. <code class="docutils literal notranslate"><span class="pre">withRT</span></code> is true if the retweet is inlcuded in the query building. <code class="docutils literal notranslate"><span class="pre">lang</span></code> specified the language type
-of each tweet. The language are formated in <code class="docutils literal notranslate"><span class="pre">lang_code</span></code>. <code class="docutils literal notranslate"><span class="pre">exclude_keywords</span></code> is any keywords that does not want to be included in the search . `</p>
+<p><code class="docutils literal notranslate"><span class="pre">orKeywords</span></code> are list of of arrays. Each of the list will be combine with <code class="docutils literal notranslate"><span class="pre">OR</span></code>.  For example. the above or keywords will be <code class="docutils literal notranslate"><span class="pre">(environment</span> <span class="pre">OR</span> <span class="pre">climate</span> <span class="pre">action)</span> <span class="pre">(ecofriendly</span> <span class="pre">OR</span> <span class="pre">recycling</span> <span class="pre">OR</span> <span class="pre">zero</span> <span class="pre">waste&quot;)</span></code>.
+<code class="docutils literal notranslate"><span class="pre">withRT</span></code> is true if the retweet is inlcuded in the query building.
+<code class="docutils literal notranslate"><span class="pre">lang</span></code> specified the language type of each tweet. The language are formated in <code class="docutils literal notranslate"><span class="pre">lang_code</span></code>.
+<code class="docutils literal notranslate"><span class="pre">exclude_keywords</span></code> is any keywords that does not want to be included in the search.</p>
 </div>
-<div class="section" id="query-formation">
-<h3>Query Formation<a class="headerlink" href="#query-formation" title="Permalink to this headline">¶</a></h3>
-<p>The input file will be passed into <code class="docutils literal notranslate"><span class="pre">queryBuilding</span></code> function to extract all the details and building a query that can used to perform requesting later.</p>
+<div class="section" id="building-query">
+<h2>Building Query<a class="headerlink" href="#building-query" title="Permalink to this headline">¶</a></h2>
+<p>The input file is an array of json object that will be used to build the query. Each of the json object will be passed into <code class="docutils literal notranslate"><span class="pre">queryBuilding</span></code> function to extract all the details and building a query that can used to perform requesting later.
+In each json object, it consists of the name of the topic, encoding will be performed on the <code class="docutils literal notranslate"><span class="pre">topic</span></code> to create a unqiue 10 digit hashed topic id.
+The topic id with the built query will then be saved.</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+        <span class="nt">&quot;topicId&quot;</span> <span class="p">:</span> <span class="s2">&quot;9715149228&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;topic&quot;</span> <span class="p">:</span> <span class="s2">&quot;climate change&quot;</span><span class="p">,</span>
+        <span class="nt">&quot;query&quot;</span> <span class="p">:</span> <span class="s2">&quot;(environment OR climate action) (ecofriendly OR recycling OR zero waste)&quot;</span>
+<span class="p">}</span>
+</pre></div>
 </div>
 </div>
 <div class="section" id="requesting-data">
 <h2>Requesting Data<a class="headerlink" href="#requesting-data" title="Permalink to this headline">¶</a></h2>
-<p>After building out the query, it will be used to request tweets from Twitter API. The function will be using tweepy pagination and performing a recent search on Twitter API.</p>
+<dl class="simple">
+<dt>After bulding the query, we can the data collecting process. There is 2 main steps in this step, which are</dt><dd><ul class="simple">
+<li><p>the used of <code class="docutils literal notranslate"><span class="pre">TweetsReq</span></code> or <code class="docutils literal notranslate"><span class="pre">requestData</span></code> function to request tweets</p></li>
+<li><p>the used of <code class="docutils literal notranslate"><span class="pre">requestUserLocation</span></code> function to request user location of each tweets</p></li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="module-queryBuilding">
+<span id="functions"></span><h2>Functions<a class="headerlink" href="#module-queryBuilding" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="queryBuilding.queryBuilding">
+<span class="sig-prename descclassname"><span class="pre">queryBuilding.</span></span><span class="sig-name descname"><span class="pre">queryBuilding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">queryKeywords</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#queryBuilding.queryBuilding" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function is used to build a query to send request to the Twitter API.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>queryKeywords</strong> – dictionary for the keywords</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a query that can be used to send request to Twitter API using Tweetpy.</p>
+</dd>
+</dl>
+</dd></dl>
+
 <span class="target" id="module-twitter_request"></span><dl class="py function">
 <dt class="sig sig-object py" id="twitter_request.TweetsReq">
 <span class="sig-prename descclassname"><span class="pre">twitter_request.</span></span><span class="sig-name descname"><span class="pre">TweetsReq</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tweetFields</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expansions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">since_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">next_token</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#twitter_request.TweetsReq" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>This function is can be used to pull the newest data, historical data only up to 7 days.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client</strong> – the client to connect with Twitter API</p></li>
+<li><p><strong>query</strong> – query built using queryBuilding function</p></li>
+<li><p><strong>columns</strong> – column names that need for the dataframe</p></li>
+<li><p><strong>tweetFields</strong> – an array of fields that needed from TwitterAPI</p></li>
+<li><p><strong>expansions</strong> – an array of expansions that needed from TwitterAPI</p></li>
+<li><p><strong>since_id</strong> – the latest tweetId in your database</p></li>
+<li><p><strong>next_token</strong> – a token for pagination</p></li>
+<li><p><strong>max_result</strong> – the max result is 100 and min of this value is 10</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a dictionary consists of since_id, next_token and current number of tweets</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="twitter_request.chunks">
@@ -280,7 +333,7 @@ of each tweet. The language are formated in <code class="docutils literal notran
 
 <dl class="py function">
 <dt class="sig sig-object py" id="twitter_request.requestData">
-<span class="sig-prename descclassname"><span class="pre">twitter_request.</span></span><span class="sig-name descname"><span class="pre">requestData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tweetFields</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expansions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20000</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#twitter_request.requestData" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">twitter_request.</span></span><span class="sig-name descname"><span class="pre">requestData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">client</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tweetFields</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expansions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20000</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#twitter_request.requestData" title="Permalink to this definition">¶</a></dt>
 <dd><p>Used to request tweets from Twitter. This function will only search for the recent tweets (up to 7 days) with paginate. <em>Full search are not allow due to the restricted access to the AP.</em></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -295,7 +348,7 @@ of each tweet. The language are formated in <code class="docutils literal notran
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>None, but will be saving a csv file to the current directory</p>
+<dd class="field-even"><p>dataframe</p>
 </dd>
 </dl>
 </dd></dl>
@@ -313,20 +366,6 @@ of each tweet. The language are formated in <code class="docutils literal notran
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>a list of dictionary with user id and location</p>
-</dd>
-</dl>
-</dd></dl>
-
-<span class="target" id="module-queryBuilding"></span><dl class="py function">
-<dt class="sig sig-object py" id="queryBuilding.queryBuilding">
-<span class="sig-prename descclassname"><span class="pre">queryBuilding.</span></span><span class="sig-name descname"><span class="pre">queryBuilding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">queryKeywords</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#queryBuilding.queryBuilding" title="Permalink to this definition">¶</a></dt>
-<dd><p>This function is used to build a query to send request to the Twitter API.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>queryKeywords</strong> – dictionary for the keywords</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>a query that can be used to send request to Twitter API using Tweetpy.</p>
 </dd>
 </dl>
 </dd></dl>
