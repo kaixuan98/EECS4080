@@ -32,7 +32,7 @@ def clean_tweet(tweet, lang):
     temp = re.sub("@[A-Za-z0-9_]+","", temp)  # removing handle 
     temp = re.sub("#","", temp)  # removing hastags
     temp = re.sub(r'http\S+', '', temp) # removing any link
-    temp = re.sub('[()!?]', ' ', temp)  # remove the punct 
+    temp = re.sub(r'[^\w\s]', ' ', temp)  # remove the punct 
     temp = re.sub('\[.*?\]',' ', temp)  # remove any weird symbol
     temp = re.sub("[^a-z0-9]"," ", temp) # remove any numbers
     print(temp)
@@ -89,9 +89,11 @@ def getLocation(df):
     return df
 
 if __name__ == "__main__":
+    # ASK: should we translate before cleaning or vice versa? 
     tweet = '@GrueneBundestag @cem_oezdemir Eine #Landwirtschaft muss ein Land vor allen Dingen JEDERZEIT autark mit #Obst #Gemüse #Getreide #Fleisch versorgen können Soweit wie möglich #Bio! In #Deutschland wird das nicht gelingen wenn tausende Hektar #Ackerfläche &amp; #Weideland durch #ErneuerbareEnergien vernichtet werden'
     eng_tweet = "@GrueneBundestag @cem_oezdemir An #agriculture must be able to supply a country above all EVERY TIME self-sufficiently with #fruit #vegetables #grain #meat As far as possible #organic! In #Germany this will not succeed if thousands of hectares of #arable land & pasture are destroyed by #renewableenergies."
+    tweet2 = "@RealOilRspctr @SeedOilDsrspctr I just saw this organic, OIL FREE oat milk in the store today. For people are intent on drinking oat milk - try MALK. https://t.co/EileDW3v0Y"
     result = clean_tweet(tweet, "de")
     print(result)
-    result2 = clean_tweet(eng_tweet, "en")
+    result2 = clean_tweet(tweet2, "en")
     print(result2)

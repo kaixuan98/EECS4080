@@ -98,6 +98,16 @@
    Sentiment Analysis Model
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="data_visualization_content.html">
+   Data Visualization
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="full_example.html">
+   Example
+  </a>
+ </li>
 </ul>
 
     </div>
@@ -170,6 +180,16 @@
             <nav id="bd-toc-nav" aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cleaning-tweets">
+   Cleaning tweets
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#extract-user-location">
+   Extract User Location
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#module-data_cleaning">
    Functions
   </a>
@@ -195,6 +215,16 @@
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#cleaning-tweets">
+   Cleaning tweets
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#extract-user-location">
+   Extract User Location
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#module-data_cleaning">
    Functions
   </a>
@@ -210,6 +240,54 @@
                 
   <div class="section" id="data-preprocessing">
 <h1>Data Preprocessing<a class="headerlink" href="#data-preprocessing" title="Permalink to this headline">¶</a></h1>
+<p>In this phase we will be doing some basic cleaning of the tweets that we had collected.</p>
+<div class="section" id="cleaning-tweets">
+<h2>Cleaning tweets<a class="headerlink" href="#cleaning-tweets" title="Permalink to this headline">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">clean_tweet</span></code> is used to clean the raw tweets that were collected in the previous phase. Items will be removed is shown in the following list</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>New line will be remove from the tweets to make it as a compelete sentences.</p></li>
+<li><p>Twitter handles (ie &#64;username) will be remove in this process.</p></li>
+<li><p>Any URL or links that is not important to the analysis.</p></li>
+<li><p>Punctuations</p></li>
+<li><p>Numbers or Digits</p></li>
+<li><p>Hashtags</p>
+<ul>
+<li><p>the content of hashtag will not be remove because it could be a word that user used to express their content.</p></li>
+<li><p>if the hashtag content has an underscore, it will still be remove after the punctuations</p></li>
+<li><p>since hashtag does not allow spaces, even removing just the hashtag, we are not able to identify is it a word or a phase.</p></li>
+</ul>
+</li>
+<li><p>Stop words
+* The stop words are removed based the stop words that provided in NLTK
+* language will be identify before cleaning and will clean based on the languages
+* currently only support English(en), German(de), and Spanish(es).</p></li>
+</ul>
+</div></blockquote>
+<p>Example of the raw tweet:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;@RealOilRspctr @SeedOilDsrspctr I just saw this organic, OIL FREE oat milk in the store today. For people are intent on drinking oat milk - try MALK. https://t.co/EileDW3v0Y&quot;</span>
+</pre></div>
+</div>
+<p>Example of clean tweet:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">saw</span> <span class="n">organic</span> <span class="n">oil</span> <span class="n">free</span> <span class="n">oat</span> <span class="n">milk</span> <span class="n">store</span> <span class="n">today</span> <span class="n">people</span> <span class="n">intent</span> <span class="n">drinking</span> <span class="n">oat</span> <span class="n">milk</span> <span class="k">try</span> <span class="n">malk</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="extract-user-location">
+<h2>Extract User Location<a class="headerlink" href="#extract-user-location" title="Permalink to this headline">¶</a></h2>
+<p>Due to limited access of Twitter API, the location of the tweets is not accessible. Thus we need to used the user location based on their profile.
+This is information is collected in previous data collecting phase. The data that we got suffer from 2 problems. First, most of the user will not declare their location,
+thus the data that we had collected contains a lot of null or empty value. Second, the even user declare their location, creativity will get in the way that user might declare a vauge location, for example - metaverse, in my bed.</p>
+<p>Cleaning and extracting User location</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Remove the emoji with <code class="docutils literal notranslate"><span class="pre">deEmojify</span></code></p></li>
+<li><p>Remove all the null values</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">isLocation</span></code> is used to identify an actual location (entity recognition using Spacy)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">getLocation</span></code> is used to request to the coordinates and the country name of the location (Geopositioning with GeoPy)</p></li>
+</ul>
+</div></blockquote>
+</div>
 <div class="section" id="module-data_cleaning">
 <span id="functions"></span><h2>Functions<a class="headerlink" href="#module-data_cleaning" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">

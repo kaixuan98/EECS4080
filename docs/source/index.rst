@@ -14,6 +14,8 @@ Welcome to EECS 4080 Project's documentation!
    data_cleaning_content
    translation_content
    model_content
+   data_visualization_content
+   full_example
 
 Indices and tables
 ==================
