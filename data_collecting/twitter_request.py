@@ -147,7 +147,7 @@ if __name__ == "__main__":
 
     # Step 2ai: Request with a scheduler(request for the past 7 days- historical data)
     # this steps need keep track to next token 
-    # next_token='b26v89c19zqg8o3fpytmp907cr5jioq6lpvbvmnax05tp'
+    # next_token=''
     # since_id=''
     # previous_count = 443669
     # tweet_count = 443669
