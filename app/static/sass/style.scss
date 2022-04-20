@@ -1,0 +1,97 @@
+body{
+    margin:0;
+    padding:0;
+    display: flex;
+
+    .container{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin: 0 5vw 0 5vw ;
+        
+
+        #output{
+            overflow: auto;
+            width:90vw; 
+            table{
+                thead{
+                    position: sticky;
+                }
+            }
+        }
+
+
+}
+}
+
+.table-box{
+    width: 20%;
+}
+
+.styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 90vw ;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    width: 80%;
+
+    th{
+        text-align: center;
+        padding: 8px;
+    }
+
+    thead{
+        tr{
+            background-color: #009879;
+            color: #ffffff;
+            text-align: left;
+        }
+    }
+
+    thead{
+        td{
+            padding: 12px 15px; 
+        }
+    }
+
+    tbody{
+        tr{
+            border-bottom: 1px solid #dddddd;
+            td{
+                padding: 8px 4px; 
+            }
+        }
+
+        tr:nth-of-type(even){
+            background-color: #f3f3f3;
+        }
+
+        tr:last-of-type{
+            border-bottom: 2px solid #009879;
+        }
+    }
+}
+
+#input{
+    border: black solid 1px; 
+    border-radius: 5px;
+    background-color:rgba(0, 152, 121, 0.1) ;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    
+    h3,form{
+        padding: 0 8px ;
+    }
+}
+
+
+.btn-container{
+    display: flex;
+    justify-content: right;
+    margin: 8px;
+}
+
+.plotly{
+    width: 60vw;
+}

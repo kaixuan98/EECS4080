@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+    <head>
+        <title>EECS 4080: Online Platform for Social Media Mining</title>
+        <link href="{{ url_for('static', filename='css/style.scss.css') }}" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+        <div class="container">
+            <div id="title">
+                <h1>EECS 4080: Online Platform for Social Media Mining</h1> 
+                <h3>Visualization</h3>
+                
+            </div>
+
+            <h3>Language Distribution</h3>
+            <div  id='chart5' class='chart'></div>
+
+            <h3>Location Distribution</h3>
+            <div  id='chart4' class='chart'></div>
+
+            <h3>Positive Label</h3>
+            <div id='chart' class='chart'></div>
+            <h3>Neutral Label</h3>
+            <div id="chart2"  class="chart"></div>
+            <h3>Negative Label</h3>
+            <div id="chart3"  class="chart"></div>
+        </div>
+    </body>
+
+    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+    <script type='text/javascript'>
+        var graphs = {{ graphJSON | safe }};
+        Plotly.plot('chart',graphs,{});
+        var graph2 = {{ graphJSON2 | safe}};
+        Plotly.newPlot('chart2', graph2, {});
+        var graph3 = {{ graphJSON3 | safe}};
+        Plotly.newPlot('chart3', graph3, {});
+        var graph4 = {{ graphJSON4 | safe}};
+        Plotly.newPlot('chart4', graph4, {});
+        var graph5= {{ graphJSON5 | safe}};
+        Plotly.newPlot('chart5', graph5, {});
+    </script>
+</html>

@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+    <head>
+        <title>EECS 4080: Online Platform for Social Media Mining</title>
+        <link href="{{ url_for('static', filename='css/style.scss.css') }}" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+        <div class="container">
+            <div id="title">
+                <h1>EECS 4080: Online Platform for Social Media Mining</h1> 
+                <h3>Step 3: Twitter User Request</h3>
+            </div>
+
+            <p>Here are the raw data: </p>
+            {% for file in files %}
+                {% if file.find("withLoc") %}
+                    <a href="{{ url_for('download_user', filename=file) }}">{{ file }}</a>
+                {% endif %}
+            {% endfor %}
+
+
+            <div class="btn-container">
+                <form method="GET" action="{{ url_for('cleaning') }}" enctype="multipart/form-data">
+                    {% if fileLen > 0 %}
+                        <button type="submit">Step 4: Basic Cleaing </button>
+                    {% else %}
+                        <button type="submit" disabled>Step 4: Basic Cleaning</button>
+                    {% endif%}
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,4 +1,5 @@
 from decouple import config
+from matplotlib.font_manager import json_dump
 from sqlalchemy import null
 import tweepy
 import pandas as pd
@@ -13,7 +14,7 @@ module_path = os.path.abspath(os.path.join('..'))
 if module_path not in sys.path:
     sys.path.append(module_path)
 from data_collecting.twitter_request import TweetsReq, requestData, requestUserLocation, chunks
-from data_collecting.queryBuilding import queryBuilding
+from data_collecting.queryBuilding import queryBuilding, keywords_to_array, make_json
 
 
 if __name__ == "__main__":
@@ -33,21 +34,30 @@ if __name__ == "__main__":
     curr_next_token = ''
 
     # Step 1: query building
-    f = open('../input/providedInput.json')
-    topics = json.load(f)
+    f = open('../input/testingInput.json')
+    inputFile = json.load(f)
     result=[]
-    for topic in topics:
-        # create a hashid with the topic name
-        id = abs(hash(topic['topic'])) % (10 ** 10)
-        # build query 
-        query = queryBuilding(topic['query'])
-        result.append({"topicId": id , "topic": topic['topic'], "query": query})
+    for topic in inputFile:
+        # create a hashid with the topic nam)
+        topicName = inputFile.get(topic)['topic']
+        id = abs(hash(topicName)) % (10 ** 10)
+        # # build query 
+        keywords = inputFile.get(topic)['orKeywords'].split(";")
+        orKeywords =[]
+        for keyword in keywords:
+            orKeywords.append(keywords_to_array(keyword))
+        lang = inputFile.get(topic)['lang']
+        exclude = keywords_to_array(inputFile.get(topic)['excludedKeyword'])
+        withRT = inputFile.get(topic)['withRT']
+        inputQuery = {"orKeywords": orKeywords , "withRT": withRT, "lang": lang, "exclude_keywords": exclude }
+        query = queryBuilding(inputQuery)
+        result.append({ "topicId": id , "topic": topicName, "query": query})
     f.close()
 
     
     # Step 2: Request tweets for each topic
-    startTime = '2022-03-25T00:00:00.00Z'
-    endTime = '2022-03-26T00:00:00.00Z'
+    startTime = '2022-04-08T00:00:00.00Z'
+    endTime = '2022-03-13T00:00:00.00Z'
     for topic in result:
         df = requestData(client, topic['query'], columns, tweet_fields, expansions, startTime, endTime, 100, 100) 
         # add topic id to the dataframe
@@ -67,7 +77,7 @@ if __name__ == "__main__":
             df.to_csv(saveFile, index=False)
     
     
-    # Step 3: Request users with chuncks
+    # # Step 3: Request users with chuncks
     for topic in result:
         topicName = topic['topic'].replace(" ", '')
         filename = 'output/' + topicName + '.csv'

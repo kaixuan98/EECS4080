@@ -103,15 +103,22 @@ def requestUserLocation(client, batches, tweetId_batches, userFields=['id', 'loc
             time.sleep(1020)
             users = client.get_users(ids=batch, user_fields=userFields)
             req_calls = req_calls + 100
-            # print(f"{datetime.datetime.now()}-> batch:{i} , user_retrived:{req_calls}")
+            print(f"{datetime.datetime.now()}-> batch:{i} , user_retrived:{req_calls}")
             for j, user in enumerate(users.data):
                 loc_list.append({'author_id': user.id , 'user_loc': user.location, 'tweetId': tweetId_batches[i][j]})
         else: 
             users = client.get_users(ids=batch, user_fields=userFields)
             req_calls = req_calls + 100
-            # print(f"{datetime.datetime.now()}-> batch:{i} , user_retrived:{req_calls}")
+            print(f"{datetime.datetime.now()}-> batch:{i} , user_retrived:{req_calls}")
             for j, user in enumerate(users.data):
-                loc_list.append({'author_id': user.id , 'user_loc': user.location , 'tweetId': tweetId_batches[i][j]})
+                if user != None: 
+                    loc_list.append({'author_id': user.id , 'user_loc': user.location , 'tweetId': tweetId_batches[i][j]})
+        if exists('user_log.txt'):
+                with open('log.txt', 'a') as f:
+                    (f"{datetime.datetime.now()}-> batch:{i} , user_retrived:{req_calls}")
+        else:
+            with open('user_log.txt', 'w') as f:
+                (f"{datetime.datetime.now()}-> batch:{i} , user_retrived:{req_calls}")
     return loc_list
 
 
@@ -129,7 +136,8 @@ if __name__ == "__main__":
 
     # Step 1: Get Json file and build query 
     # query = queryBuilding('../input/inputfile.json')
-    query = '(climatechange OR ecofriendly OR sustainable OR zerowaste OR environment OR climateaction OR savetheplanet OR globalwarming -RT) -is:retweet lang:en'
+    # query = '(Ukraine OR Russia OR war OR invasion OR Nato OR Putin OR Zelensky OR crisis OR Western OR Europe OR Ukrainians OR Kyiv) -RT -is:retweet'
+    # query2 = '(Україна OR Росія OR війна OR вторгнення OR Nato OR Путін OR Зеленський OR криза OR Захід OR Європа OR українці OR Київ) -RT -is:retweet lang:uk'
 
     # Step 2: Request data with all the parameters needed
     columns = ['tweetId', 'author_id', 'tweet', 'lang', 'created_at']
@@ -139,27 +147,32 @@ if __name__ == "__main__":
 
     # Step 2ai: Request with a scheduler(request for the past 7 days- historical data)
     # this steps need keep track to next token 
-    # next_token='b26v89c19zqg8o3fpe77011fhexhcpgnhg9t39ra7vji5'
+    # next_token='b26v89c19zqg8o3fpytmp907cr5jioq6lpvbvmnax05tp'
     # since_id=''
-    # tweet_count = 176304
-    # start_time = '2022-03-11T00:00:00.00Z'
+    # previous_count = 443669
+    # tweet_count = 443669
+    # start_time = '2022-04-08T00:00:00.00Z'
     # tokens = TweetsReq(client, query ,columns, tweetFields=tweet_fields, expansions=expansions, since_id=since_id,next_token=next_token, max_results=100) # first time getting data
     # next_token= tokens.get('next_token')
     # tweet_count = tweet_count + tokens.get('result_count')
-    # page = 1768
-    # while next_token:
-    #     print("Requesting ...")
-    #     tokens = TweetsReq(client, query ,columns, tweetFields=tweet_fields, expansions=expansions,since_id=since_id, next_token=next_token, max_results=100)
-    #     page = page + 1 
-    #     print(f"{datetime.datetime.now()}: page {page}")
-    #     next_token= tokens.get('next_token')
-    #     tweet_count = tweet_count + tokens.get('result_count')
-    #     if exists('log.txt'):
-    #         with open('log.txt', 'a') as f:
-    #             f.write(f"{datetime.datetime.now()}-> page:{page}, tweet count:{tweet_count}, next_token:{next_token}\n")
+    # page = 4437
+    # while next_token or tweet_count < 1000000:
+    #     if (tweet_count-previous_count) > 40000: 
+    #         time.sleep(900)
+    #         previous_count = tweet_count
     #     else:
-    #         with open('log.txt', 'w') as f:
-    #             f.write(f"{datetime.datetime.now()}-> page:{page}, tweet count:{tweet_count}, next_token:{next_token}\n")
+    #         print("Requesting ...")
+    #         tokens = TweetsReq(client, query ,columns, tweetFields=tweet_fields, expansions=expansions,since_id=since_id, next_token=next_token, max_results=100)
+    #         page = page + 1 
+    #         print(f"{datetime.datetime.now()}: page {page}")
+    #         next_token= tokens.get('next_token')
+    #         tweet_count = tweet_count + tokens.get('result_count')
+    #         if exists('log.txt'):
+    #             with open('log.txt', 'a') as f:
+    #                 f.write(f"{datetime.datetime.now()}-> page:{page}, tweet count:{tweet_count}, next_token:{next_token}\n")
+    #         else:
+    #             with open('log.txt', 'w') as f:
+    #                 f.write(f"{datetime.datetime.now()}-> page:{page}, tweet count:{tweet_count}, next_token:{next_token}\n")
 
     # Step 2aii: Request with polling(if I need new data after my historical data)
     # newest_id=''
@@ -174,14 +187,25 @@ if __name__ == "__main__":
     # Step 3: Cleaning data - in other file
 
     # Step 4: Request for user profile(location)
-    # df = pd.read_csv('../data_cleaning/clean_data_all_lang.csv')
-    # df = df.drop(df[df['author_id'] == "en"].index)
+    # df = pd.read_csv('raw_data_all_lang.csv')
     # df = df.dropna()
+    # df = df.drop_duplicates()
     # batches = list(chunks(list(df['author_id']), 100))
     # tweetID_batches = list(chunks(list(df['tweetId']), 100))
     # loc_list = requestUserLocation(client, batches , tweetID_batches)
     # location_df = pd.DataFrame(loc_list)  
     # location_df.to_csv('location.csv')   
+
+    tweet_df = pd.read_csv('raw_data_all_lang.csv', dtype={'tweetId': str, 'author_id': str})
+    tweet_df['author_id'] = tweet_df['author_id'].astype(str)
+    tweet_df = tweet_df.dropna()
+    tweet_df = tweet_df.drop_duplicates()
+    batches = list(chunks(list(tweet_df['author_id']), 100))
+    tweetID_batches = list(chunks(list(tweet_df['tweetId']), 100))
+    loc_list = requestUserLocation(client, batches , tweetID_batches)
+    location_df = pd.DataFrame(loc_list)  
+    full_df = pd.merge(tweet_df, location_df , on="tweetId")
+    full_df.to_csv('raw_data_with_loc.csv', index=False)
 
     # # Step 5: After the request, merge it with the clean df
     # full_df = pd.merge(df, location_df , on="tweetId")

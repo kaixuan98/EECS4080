@@ -2,6 +2,7 @@ from transformers import pipeline
 import torch.nn.functional as F
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, AutoModel
 import pandas as pd
+import datetime
 
 # 0 - negative, 1- neutral, 2-positive
 
@@ -15,12 +16,14 @@ def getLabels(df):
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = AutoModelForSequenceClassification.from_pretrained(model_name)
     classifier = pipeline("sentiment-analysis", model=model, tokenizer=tokenizer)
-    tweet = df['clean_tweet'].tolist()
+    tweet = df['translated_text'].tolist()
+    print(f"start: {datetime.datetime.now()}")
     res = classifier(tweet)
-    f = open('./ouput/cardiffResult_all.txt','w')
+    print(f"end: {datetime.datetime.now()}")
+    f = open('cardiff_result.txt','w')
     for result in res:
         f.write(f'{result}\n')
 
 if __name__ == "__main__":
-    df = pd.read_csv('../data_cleaning/clean_testing_all_lang.csv')
+    df = pd.read_csv('../data_cleaning/location_user.csv')
     getLabels(df)

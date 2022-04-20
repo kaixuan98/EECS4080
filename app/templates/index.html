@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+    <head>
+        <title>EECS 4080: Online Platform for Social Media Mining</title>
+        <link href="{{ url_for('static', filename='css/style.scss.css') }}" rel="stylesheet" type="text/css">
+    </head>
+    <body>
+        <div class="container">
+        <div id="title">
+            <h1>EECS 4080: Online Platform for Social Media Mining</h1> 
+            <h3>Upload csv to build query</h3>
+            <p>Crafting the query is a key to get the dataset that you are expecting</p> 
+        </div>
+
+        <div id="input">
+            <h3>Step 1: Upload your CSV file</h3>
+            <form method="POST" action="" enctype="multipart/form-data">
+                <p><input type="file" name="file"></p>
+                <p><input type="submit" value="Submit"></p>
+            </form>
+        </div>
+
+        <div id="output">
+            {% if len>0 %}
+            <table class="styled-table">
+                
+                <thead>
+                    <tr>
+                        <td>Topic ID</td>
+                        <td>Topic</td>
+                        <td>Query</td>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {%for i in range(0, len)%}
+                    <tr>
+                        <td>{{result[i]['topicId']}}</td>
+                        <td>{{result[i]['topic']}}</td>
+                        <td>{{result[i]['query']}}</td>
+                    </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+            {% endif %} 
+        </div>
+        <div class="btn-container">
+            <form method="GET" action="{{ url_for('collect') }}" enctype="multipart/form-data">
+                {% if len == 0 %}
+                    <button type="submit" disabled>Step 2: Collect Tweets</button>
+                {% elif len > 0 %}
+                    <button type="submit">Step 2: Collect Tweets</button>
+                {% endif %}
+            </form>
+        </div>
+        <div id="faq">
+
+            <h3>Instructions</h3>
+            This platform take a comma seperated values (CSV) file to build a query. The input CSV follow a certain structure which is shown below. 
+
+            <h4>CSV file format</h4>
+            <p>Here are a snippet of the CSV file with different topics.</p>
+            <pre>
+                <code class="language-markup">
+                    No,topic,orKeywords,lang,excludedKeyword,withRT
+                    1,Organic Food,"[organic];[food, milk, meat, egg, chicken, beef, pork]",en,[RT],true
+                    2,Organic Food,"[bio, öko];[Lebensmittel, Essen, Milch, Fleisch, Ei, Huhn, Rind, Schwein]",de,"[RT]",true
+                    3,Organic Food,"[orgánico];[alimentos, comida, leche, carne, huevo, pollo, res, puerco]",es,"[RT]",true
+                    4,Ukraine War,"[Ukraine, Russia, war, invade, conflict, Putin, Zelenskyy, Nato]",,"[RT, europe]",true
+                </code>
+            </pre>
+            <ul>
+                <li>No: is the number of row</li>
+                <li>topic: topic is the name of the topic</li>
+                <li>orKeywords: This is a list of keywords that are need to be group with OR
+                    <br>
+                    i.e. <code class="language-markup">"[organic];[food, milk, meat, egg, chicken, beef, pork]"</code>
+                    <br>
+                    The first square bracket is the first group of array. Since it only contain one keyword, it will just be return as a string.
+                    <br>
+                    The next square brackets are seperated with a semicolon and group with OR
+                </li>
+                <li>lang: language that you want to search for. This can be empty by skipping it(check snippet No 4). The language is using a language iso code.</li>
+                <li>excludedKeyword: the keyword that need to remove from the search(Check snippet for No.4)</li>
+                <li>withRT: true or false. True if want to remove retweet and vice versa</li>
+            </ul>
+
+            <h4>Output Query format</h4>
+            <p>We do not need the keyword AND for the query. Twitter API see a space as an AND as default</p>
+            <p>The following show an example of ouput.</p>
+            <code class="language-markup">
+                organic (food OR milk OR meat OR egg OR chicken OR beef OR pork) -RT -is:retweet lang:en
+            </code>
+            <p>Between organic and the others are seperated by a space, that is consider as an AND</p>
+        </div>
+        </div>
+    </body>
+</html>
